@@ -2007,10 +2007,17 @@ const values = `
     .filter((v) => v.length)
     .map((v) => +v);
 
-const res = values
+const ma = values
+    .map((v) => +v)
+    .map((v, ix, arr) => {
+        return ix <= arr.length - 3 ? [arr[ix], arr[ix + 1], arr[ix + 2]] : [];
+    })
+    .filter((v) => v.length)
+    .map((ar: number[]) => ar.reduce((a, b) => a + b, 0));
+
+const res = ma
     .map((v, ix, arr) => {
         return ix > 0 ? v > arr[ix - 1] : false;
     })
-    .filter((v) => v === true);
-
+    .filter((v) => v);
 console.log(res.length);
