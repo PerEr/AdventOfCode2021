@@ -1024,23 +1024,26 @@ forward 7`
 interface Pos {
     pos: number;
     depth: number;
+    aim: number;
 };
 
 let pos: Pos = {
     pos: 0,
     depth: 0,
+    aim: 0,
 };
 
 const res = values.forEach((v) => {
     switch (v.cmd) {
         case 'forward':
             pos.pos += v.value;
+            pos.depth += v.value * pos.aim;
             break;
         case 'down':
-            pos.depth += v.value;
+            pos.aim += v.value;
             break;
         case 'up':
-            pos.depth -= v.value;
+            pos.aim -= v.value;
             break;
         default:
             console.error('oops');
