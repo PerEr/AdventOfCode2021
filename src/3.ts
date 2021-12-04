@@ -1011,13 +1011,22 @@ const values = `
     .filter((v) => v.length)
     .map(parse);
 
-const res = values
-    .reduce((a, b) => a.map((v, ix) => v + b[ix]), values[0].map((v) => 0))
-    .map((v) => 2 * v >= values.length ? 1 : 0);
+const detect = (arr: number[][], ix: number): number => {
+    return arr.map((v) => v[ix]).reduce((a, b) => a + b, 0) >= arr.length / 2 ? 1 : 0;
+}
 
-const reversed = res.reverse();
+const filter = (arr: number[][], pred: (a: number, b: number) => boolean) => {
+    let tmp = values;
+    values[0].forEach((_, ix) => {
+        const o = detect(tmp, ix);
+        tmp = tmp.length > 1 ? tmp.filter((v) => pred(v[ix], o)) : tmp;
+    });
+    return tmp[0];
+};
 
-const gamma = reversed.map((v, ix) => v * (2 ** ix)).reduce((a, b) => a + b, 0);
-const epsilon = reversed.map((v, ix) => (1 - v) * (2 ** ix)).reduce((a, b) => a + b, 0);
+const toDec = (v: number[]): number => v.reverse().map((v, ix) => v * (2 ** ix)).reduce((a, b) => a + b, 0);
 
-console.log(res, gamma, epsilon, gamma * epsilon);
+const resOxy = toDec(filter(values, (a, b) => a === b));
+const resScrub = toDec(filter(values, (a, b) => a !== b));
+
+console.log(resOxy, resScrub, resOxy * resScrub);
