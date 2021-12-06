@@ -624,14 +624,17 @@ values.splice(1).forEach((v, ix) => {
     }
 })
 
+const mark = -1;
+
 const evaluateBoard = (board: number[][], draw: number[]) => {
-    const b = board.map((r) => r.map((c) => draw.indexOf(c) >= 0 ? -1 : c));
+    const b = board.map((r) => r.map((c) => draw.indexOf(c) >= 0 ? mark : c));
     return b;
 };
 
-const winner = (board: number[][]) => {
-    const hasRow = board.some((r) => r.every((c) => c === -1));
-    const hasCol = board[0].map((c, ix) => board.map((r) => r[ix])).every((c) => c[0] === -1);
+const winner = (bd: BoardData, board: number[][]) => {
+    const hasRow: boolean = board.some((r) => r.every((c) => c === mark));
+    const hasCol: boolean = board[0]
+        .map((c, ix) => board.map((r) => r[ix]).every((c) => c === mark)).some((r) => r);
     return hasRow || hasCol;
 };
 
@@ -639,20 +642,45 @@ const prune = (row: number[]): number[] => {
     return row.map((v) => v >= 0 ? v : 0);
 };
 
-const evaluate = (draw: number[]) => {
-    const b: number[][] | undefined = boards
-        .map((b) => evaluateBoard(b, draw))
-        .find(winner);
-    return b?.map(prune);
+const pruneWinners = (bds: BoardData[], draw: number[]) => {
+    return bds
+        .filter((bd) => {
+            const evalBoard = evaluateBoard(bd.board, draw);
+            return !winner(bd, evalBoard);
+        });
 };
+
+interface BoardData {
+    index: number;
+    board: number[][];
+}
+
+let remainingBoards = boards.map((b, ix): BoardData => {
+    return {
+        index: ix,
+        board: b,
+    };
+});
+let next: typeof remainingBoards = [];
 
 for (let ix = 1; ix < seq.length; ++ix) {
     const draw = [...seq].splice(0, ix);
-    const board = evaluate(draw);
-    if (board) {
-        const sum = board.map((r) => r.reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0);
-        const last = seq[ix - 1];
-        console.log(ix, last, sum, last * sum, board);
+    const next = pruneWinners(remainingBoards, draw);
+
+    if (next.length === 0) {
+        console.log(remainingBoards);
+
+        const lastBoard = remainingBoards[remainingBoards.length - 1];
+        const evalLastBoard = evaluateBoard(lastBoard.board, draw).map(prune);
+
+        console.log(evalLastBoard);
+
+        const sum = evalLastBoard.map((r) => r.reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0);
+        const last = draw[draw.length - 1];
+        console.log(ix, draw, last, sum, last * sum, board);
         break;
     }
+    remainingBoards = next;
 }
+
+
