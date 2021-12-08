@@ -558,8 +558,6 @@ const isNonDiagonal = (l: Line) => {
     return l.from.x === l.to.x || l.from.y === l.to.y;
 }
 
-values
-    .filter(isNonDiagonal)
-    .forEach(draw);
+values.forEach(draw);
 
 console.log(grid.map((y) => y.filter((x) => x > 1).length).reduce((a, b) => a + b, 0));
