@@ -2,28 +2,35 @@ export { };
 
 // https://adventofcode.com/2021/day/6
 
+const p = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 
 const values = '3,3,5,1,1,3,4,2,3,4,3,1,1,3,3,1,5,4,4,1,4,1,1,1,3,3,2,3,3,4,2,5,1,4,1,2,2,4,2,5,1,2,2,1,1,1,1,4,5,4,3,1,4,4,4,5,1,1,4,3,4,2,1,1,1,1,5,2,1,4,2,4,2,5,5,5,3,3,5,4,5,1,1,5,5,5,2,1,3,1,1,2,2,2,2,1,1,2,1,5,1,2,1,2,5,5,2,1,1,4,2,1,4,2,1,1,1,4,2,5,1,5,1,1,3,1,4,3,1,3,2,1,3,1,4,1,2,1,5,1,2,1,4,4,1,3,1,1,1,1,1,5,2,1,5,5,5,3,3,1,2,4,3,2,2,2,2,2,4,3,4,4,4,1,2,2,3,1,1,4,1,1,1,2,1,4,2,1,2,1,1,2,1,5,1,1,3,1,4,3,2,1,1,1,5,4,1,2,5,2,2,1,1,1,1,2,3,3,2,5,1,2,1,2,3,4,3,2,1,1,2,4,3,3,1,1,2,5,1,3,3,4,2,3,1,2,1,4,3,2,2,1,1,2,1,4,2,4,1,4,1,4,4,1,4,4,5,4,1,1,1,3,1,1,1,4,3,5,1,1,1,3,4,1,1,4,3,1,4,1,1,5,1,2,2,5,5,2,1,5'
     .split(',')
     .map((v) => +v);
 
-const evolve = (vs: number[]): number[] => {
-    const tail: typeof vs = [];
-    const next = vs.map((v) => {
-        if (v > 0) {
-            return v - 1;
+
+const evolve = (map: Map<number, number>): Map<number, number> => {
+    const r = new Map<number, number>();
+    const addValue = (k: number, v: number | undefined) => {
+        r.set(k, (r.get(k) || 0) + (v || 0));
+    };
+    [...map.keys()].forEach((k) => {
+        if (k === 0) {
+            addValue(6, map.get(k));
+            addValue(8, map.get(k));
         } else {
-            tail.push(8);
-            return 6;
+            addValue(k - 1, map.get(k));
         }
     });
-    next.push(...tail);
-    return next;
+    return r;
 };
 
-let vs = values;
-for (let day = 0; day < 80; ++day) {
-    vs = evolve(vs);
+let map = new Map<number, number>();
+values.forEach((v) => map.set(v, (map.get(v) || 0) + 1));
+
+for (let day = 0; day < 256; ++day) {
+    map = evolve(map);
 }
 
-console.log(vs, vs.length);
+console.log([...map.values()].reduce((a, b) => a + b, 0));
+
