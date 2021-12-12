@@ -96,14 +96,13 @@ const values = `
 <<((<<<<{<<{({<>[]}({}<>))}(([<><>]{<>()}>([<>[]][(){}]))>><(({<()[]>}({[]<>}[<>[]]))<({(){}}
 [{<({<<<{({[{[[]()]<<>>}{{[]()}[<><>]}]}{(({<><>}<[][]>){({}{})(<>{})})})}{<<({(()())<[]()]})([{<><>}<()<
 (<((([(<<<<<{[{}{}][{}{}]}(<<><>>[[]<>])>{<{<>{}}<<>()>><{<>[]}[{}{}]>}>(((<<><>>({}())))([<<>[]>]<<{}()>([]
-<[{([<<<{{[<<({}())[<>]>[{[]{}}[()]]>{{[<>{}]{<><>}}<({}[]){()<>}>}]}}[{{({{()()}(()[])}<<[
-`
+<[{([<<<{{[<<({}())[<>]>[{[]{}}[()]]>{{[<>{}]{<><>}}<({}[]){()<>}>}]}}[{{({{()()}(()[])}<<[`
     .split('\n')
     .filter((v) => v);
 
-const evaluateLine = (l: string): number => {
+const completeLine = (l: string): string | undefined => {
     const stack: string[] = [];
-    const errors = l.split('').map((c) => {
+    const isOk = l.split('').map((c) => {
         let ok = true;
         switch (c) {
             case '(':
@@ -131,19 +130,36 @@ const evaluateLine = (l: string): number => {
                 ok = stack.pop() === '<';
                 break;
         }
-        return !ok ? c : undefined;
-   }).filter((v) => v);
-   const first = errors.length > 0 ? errors[0] : ' ';
-   switch (first) {
-       case ')':
-           return 3;
-        case ']':
-            return 57;
-        case '}':
-            return 1197;
-        case '>':
-            return 25137;
-   }
-   return 0;
+        return ok;
+    }).every((v) => v);
+    if (isOk && stack.length) {
+        return stack.reverse().map((c) => {
+            switch (c) {
+                case '(':
+                    return ')';
+                case '[':
+                    return ']';
+                case '{':
+                    return '}';
+                case '<':
+                    return '>';
+            }
+        }).join('');
+    }
 };
-console.log(values.map(evaluateLine).reduce((a, b) => a + b, 0));
+
+const scoreFun = (s: string): number => {
+    let sc = 0;
+    const tokens = '_)]}>';
+
+    s.split('').forEach((c) => {
+        sc *= 5;
+        sc += tokens.indexOf(c);
+    });
+
+    return sc;
+}
+
+const completions = values.map(completeLine).filter((l) => l);
+const scores = completions.map((c) => scoreFun(c!)).sort((a, b) => a - b);
+console.log(scores[Math.floor(scores.length / 2)]);
