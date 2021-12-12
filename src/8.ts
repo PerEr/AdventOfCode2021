@@ -29,11 +29,15 @@ interface Record {
     values: string[];
 }
 
+const sorted = (a:string): string => {
+    return a.split('').sort().join('');
+}
+
 const parseRec = (l: string): Record => {
     const p = l.split('|');
     return {
         digits: p[0].trim().split(' '),
-        values: p[1].trim().split(' '),
+        values: p[1].trim().split(' ').map(sorted),
     };
 }
 const values = `
@@ -241,6 +245,69 @@ bfgedca ec gacfd gcafbe decb cef gdafeb afebdc efadc dfbea | bdec cfeabd cagfd f
     .filter((v) => v)
     .map((v) => parseRec(v!));
 
-const identifiable = values.flatMap((rec) => rec.values.filter((v) => [2,3,4,7].indexOf(v.length) >= 0));
+const strip = (s: string, r: string) => {
+    return s.split('').filter((v) => r!.indexOf(v) < 0).join('');
+};
+const includesAll = (s: string, r: string) => {
+    const a = s.split('');
+    return r.split('').map((c) => a.indexOf(c) >= 0).reduce((a,b) => a && b, true);
+}
+const matches = (s: string, r: string) => {
+    return r.length === s.length && includesAll(s, r);
+}
 
-console.log(identifiable.length);
+const deduceDigits = (r: Record) => {
+    const d = r.digits;
+    const one = d.find((a) => a.length === 2)!;
+    const seven = d.find((a) => a.length === 3)!;
+    const four = d.find((a) => a.length === 4)!;
+    const eight = d.find((a) => a.length === 7)!;
+
+    const top = strip(seven, one);
+    const tlc = strip(four, one);
+
+    const nineish = four + top;
+    const bottom = d.
+        filter((s) => includesAll(s, nineish))
+        .map((s) => strip(s, nineish)).filter((s) => s.length === 1)[0];
+
+    const threeish = top + one + bottom;
+    const center = d.
+        filter((s) => includesAll(s, threeish))
+        .map((s) => strip(s, threeish)).filter((s) => s.length === 1)[0];
+
+    const tl = strip(four, one + center)
+
+    const sixish = strip(eight, '' + one![0])
+    const tr = d.find((c) => matches(sixish, c)) ? one![0] : one![1];
+    const br = d.find((c) => matches(sixish, c)) ? one![1] : one![0];
+    
+    const bl = strip(eight, top + tl + tr + center + br + bottom)[0];
+
+    const zero = top + one + bottom + bl + tl;
+    const two = top + tr + center + bl + bottom;
+    const three = top + one + bottom + center;
+    const five = top + tl + center + br + bottom;
+    const six = five + bl;
+    const nine = four + top + bottom;
+
+    return {
+        [sorted(zero)]: 0,
+        [sorted(one)]: 1,
+        [sorted(two)]: 2,
+        [sorted(three)]: 3,
+        [sorted(four)]: 4,
+        [sorted(five)]: 5,
+        [sorted(six)]: 6,
+        [sorted(seven)]: 7,
+        [sorted(eight)]: 8,
+        [sorted(nine)]: 9,
+    }
+}
+
+console.log(values.map((rec) => {
+    const m = deduceDigits(rec);
+    return rec.values
+        .map((v) => m[sorted(v)])
+        .reduce((a, b) => a*10 + b, 0);
+}).reduce((a, b) => a + b, 0));
