@@ -2,6 +2,11 @@ export { };
 
 // https://adventofcode.com/2021/day/9
 
+interface Coord {
+    r: number;
+    c: number;
+}
+
 const values = `
 4567894301299921298789654345689439843295436789543298765432345678986789756901239998765634567895986555
 3458963212989890989678943234678998764989945678932198764321456799215678949892398999854525658934895434
@@ -115,12 +120,15 @@ const deltas = [
     { dc: 1, dr: 0},
     { dc: 0, dr: 1},
 ]
+
+const inrange = (r: number, c: number): boolean => r >= 0 && r<values.length && c>=0 && c<values[r].length;
+
 const calcRisk = (rix: number, cix: number): number => {
     const val = values[rix][cix];
     const ds = deltas.map((d) => {
         const r = rix + d.dr;
         const c = cix + d.dc;
-        if (r >= 0 && r<values.length && c>=0 && c<values[r].length) {
+        if (inrange(r, c)) {
             return values[r][c] - val;
         } else {
             return 1;
@@ -130,9 +138,28 @@ const calcRisk = (rix: number, cix: number): number => {
     return isLowPint ? val + 1 : 0;
 }
 
-const riskMap = values.map((r, rix) => r.map((c, cix) => calcRisk(rix, cix)));
+const lowPoints = values
+    .map((r, rix) => r.map((c, cix) => calcRisk(rix, cix) > 0 ? { r: rix, c: cix } as Coord : undefined))
+    .flatMap((r) => r.filter((c) => c));
 
-const res = riskMap
-    .map((r) => r.reduce((a, b) => a + b, 0))
-    .reduce((a, b) => a + b, 0);
+const expandBasin = (coord: Coord, val: number, basin: readonly Coord[]): readonly Coord[] => {
+    if (inrange(coord.r, coord.c)) {
+        const v = values[coord.r][coord.c];
+        if (v > val && v < 9) {
+            let workBasin = basin.some((cc) => cc.r === coord.r && cc.c === coord.c) ? 
+                basin : [...basin, coord];
+            deltas.forEach((d) => {
+                workBasin = expandBasin({ r: coord.r + d.dr, c: coord.c + d.dc}, v, workBasin);
+            });
+            return workBasin;
+        }
+    }
+    return basin;
+}
+const calcBasinSize = (coord: Coord): number => {
+    return expandBasin(coord, -1, []).length;
+};
+const basinSizes = lowPoints.map((v) => calcBasinSize(v!));
+
+const res = basinSizes.sort((a, b) => b - a).splice(0,3).reduce((a, b) => a * b, 1);
 console.log(res);
