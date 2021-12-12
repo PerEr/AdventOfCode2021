@@ -63,12 +63,12 @@ const evolveStep = (v: readonly number[][]): number[][] => {
 }
 
 let v = values;
-let totFlashes = 0;
-
-for(let i=0 ; i<=100 ; ++i) {
-    const flashes = v.map((r) => r.filter((v) => v === 0).length).reduce((a, b) => a + b, 0);
-    totFlashes += flashes;
-    console.log(i, flashes, totFlashes);
+let allFlashing = false;
+let generation = 0;
+while (!allFlashing) {
     v = evolveStep(v);
-
+    allFlashing = v.flatMap((v) => v).every((c) => c === 0);
+    ++generation;
 }
+
+console.log(generation);
