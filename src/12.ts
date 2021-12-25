@@ -4,49 +4,52 @@ export { };
 
 
 const values: string[][] = `
-BC-gt
-gt-zf
-end-KH
-end-BC
-so-NL
-so-ly
-start-BC
-NL-zf
-end-LK
-LK-so
-ly-KH
-NL-bt
-gt-NL
-start-zf
-so-zf
-ly-BC
-BC-zf
-zf-ly
-ly-NL
-ly-LK
-IA-bt
-bt-so
-ui-KH
-gt-start
-KH-so
-`
+dc-end
+HN-start
+start-kj
+dc-start
+dc-HN
+LN-dc
+HN-end
+kj-sa
+kj-HN
+kj-dc`
     .split('\n')
     .filter((v) => v)
     .map((l) => l.split('-'));
 
-const paths = (from: string, to: string, visited: string[], edges: string[][]): string[][] => {
+type Visited = {
+    [key: string]: number,
+}
+const paths = (d: number, from: string, to: string, visited: Visited, edges: readonly string[][]): string[][] => {
     const solution = edges.find((e) => e.indexOf(from) >= 0 && e.indexOf(to) >= 0) || [];
+    const maxVisit = Object.keys(visited).some((k) => visited[k] === 2) ? 0 : 1;
     const next: string[] = edges
         .filter((e) => e.indexOf(to) < 0)
         .map((e) => {
             const ix = e.indexOf(from);
             return ix >= 0 ? e[1-ix] : '';
-        }).filter((v) => v.length);
-    const isBig = from === from.toUpperCase();
-    const nvisited = isBig ? visited : [from, ...visited];
+        })
+        .filter((v) => v.length)
+        .filter((v) => visited[v] === undefined || visited[v] <= maxVisit)
+        .filter((v) => v !== 'start')
+        .sort();
+    const isConsumable = from === from.toLowerCase();
+    const nvisited = isConsumable ? {
+        ...visited,
+        [from]: (visited[from] || 0) + 1,
+    } : visited;
+    
+    console.log(new Array(d+1).join('  '), from, to, maxVisit, next, visited, nvisited);
+    // console.log(new Array(d).join('    '), from, to, next, edges, visited, nvisited);
+    const f = (a: string[]) => {
+        const hasExpired = a.some((e) => visited[e] === 0);
+        //const x = a.some((e) => e === from);
+        return !hasExpired;
+    };
     const r = next.map((n: string) => {
-        const other = edges.filter((a) => !a.some((e) => visited.indexOf(e) >= 0));
-        return paths(n, to, nvisited, other)
+        // const other = edges.filter(f);
+        return paths(d+1, n, to, nvisited, edges)
             .map((p: string[]) => [from, ...p]);
     }).filter((p) => p.length);
     if (solution.length) {
@@ -55,7 +58,10 @@ const paths = (from: string, to: string, visited: string[], edges: string[][]): 
     return r.flatMap((l) => l);
 }
 
-const res = paths('start', 'end', [], values)
-    .map((l) => l.join(','));
+const res = paths(0, 'start', 'end', {
+    start: 0,
+    end: 0,
+}, values).map((l) => l.join(','));
 
+res.forEach((s) => console.log(s));
 console.log(res.length);
