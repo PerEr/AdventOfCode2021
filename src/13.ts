@@ -1085,12 +1085,22 @@ const xfold = (coords: Coord[], foldAt: number): Coord[] => {
     return dedup(tmp);
 };
 
-console.log(folds);
-
 let foldingCoords: Coord[] = [...coords];
 folds.forEach((a) => {
-    console.log('l', foldingCoords.length);
     foldingCoords = a.axis === 'x' ? xfold(foldingCoords, a.ix) : yfold(foldingCoords, a.ix);
 })
 
-// console.log(foldingCoords);
+const maxCoord = foldingCoords.reduce<Coord>((a, b) => {
+    return {
+        x: Math.max(a.x, b.x),
+        y: Math.max(a.y, b.y),
+    }
+}, { x: 0, y: 0});
+
+for (let y=0 ; y<maxCoord.y+1 ; ++y) {
+    let s: string[] = [];
+    for (let x=0 ; x<maxCoord.x+1 ; ++x) {
+        s.push(foldingCoords.find((c) => c.x === x && c.y === y) ? '#' : ' ');
+    }
+    console.log(s.join(''));
+}
