@@ -1,8 +1,8 @@
 export { };
 
-// https://adventofcode.com/2021/day/13
+// https://adventofcode.com/2021/day/14
 
-const [seed, ruleData] = `BCHCKFFHSKPBSNVVKVSK
+const [seedData, ruleData] = `BCHCKFFHSKPBSNVVKVSK
 
 OV -> V
 CO -> V
@@ -122,24 +122,42 @@ const toPairs = (s: string): string[] => {
         .filter((v) => v.length);
 };
 
-const applyRulez = (pair: string): string => {
+const applyRulez = (pair: string): string[] => {
     const insert = rulez.get(pair);
-    return insert ? pair[0] + insert + pair[1] : pair
+    if (!insert) { 
+        console.log('missing', pair);
+    }
+    return insert ? [pair[0] + insert, insert + pair[1]] : [pair];
 }
-const evolve = (s: string): string => {
-    return toPairs(s)
-        .map(applyRulez)
-        .map((v, i) => i == 0 ? v : v.substring(1))
-        .join('');
+const evolve = (s: Map<string, number>) => {
+    const r = new Map<string, number>();
+    [...s.keys()].forEach((k) => {
+        const num = s.get(k) || 0;
+        applyRulez(k).forEach((p) => {
+            r.set(p, num + (r.get(p) || 0));
+        });
+    });
+    return r;
 };
 
-let workSeed = seed;
-for (let i=0 ; i<=10 ; ++i) {
+let workSeed = new Map<string, number>();
+toPairs(seedData).forEach((v) => {2926813379532
+    workSeed.set(v, 1 + (workSeed.get(v) || 0));
+});
+
+console.log(workSeed);
+for (let i=0 ; i<=40 ; ++i) {
     const m = new Map<string, number>();
-    workSeed.split('').forEach((c) => m.set(c, 1 + (m.get(c) || 0)));
+    [...workSeed.entries()].forEach(([k, num]) => {
+        const c = k[1];
+        m.set(c, num + (m.get(c) || 0));
+    });
+    {
+        const c0 = seedData[0];
+        m.set(c0, 1 + (m.get(c0) || 0));
+    }
     const sm = [...m.values()].sort((a, b) => b - a);
     console.log(i, sm[0] - sm[sm.length-1]);
     workSeed = evolve(workSeed);
 }
 
-// const seed2 = evolve(seed);
