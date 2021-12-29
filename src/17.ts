@@ -7,7 +7,6 @@ const target = {
     x1: 330, y1: -50,
 }
 
-
 const simulateShot = (dx: number, dy: number): number | undefined => {
     let x = 0;
     let y = 0;
@@ -23,25 +22,22 @@ const simulateShot = (dx: number, dy: number): number | undefined => {
         x += dx;
         y += dy;
 
-        dx = dx > 0 ? dx - 1 : dx + 1;
+        dx = dx === 0 ? 0 : dx > 0 ? dx - 1 : dx + 1;
         dy -= 1;
     } while (true);
 }
 
-let dx = 17;
-let dy = -4;
-
-const MAX = 250;
-let best = 0;
+const MAX = 512;
+let count = 0;
 
 for (let dx = 0 ; dx<MAX ; ++dx) {
 
-    for (let dy = 0 ; dy<MAX ; ++dy) {
+    for (let dy = -MAX ; dy<MAX ; ++dy) {
         const res = simulateShot(dx, dy);
-        if (res  && res > best) {
-            best = res;
+        if (res !== undefined) {
+            ++count;
         }
     }
 }
 
-console.log('Max Y:', best);
+console.log('Count:', count);
