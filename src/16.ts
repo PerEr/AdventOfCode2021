@@ -39,10 +39,29 @@ class BitStream {
     }
  }
 
- const consumePacket = (bs: BitStream) => {
+ const opLookup = (op: number) =>  {
+     switch (op) {
+        case 0: 
+             return (p: number[]) => p.reduce((a, b) => a + b, 0);
+        case 1:
+            return (p: number[]) => p.reduce((a, b) => a * b, 1);
+        case 2:
+            return (p: number[]) => p.reduce((a, b) => Math.min(a, b), p[0]);
+        case 3:
+            return (p: number[]) => p.reduce((a, b) => Math.max(a, b), p[0]);
+        case 5:
+            return (p: number[]) => p[0] > p[1] ? 1 : 0;
+        case 6:
+            return (p: number[]) => p[0] < p[1] ? 1 : 0;
+        case 7:
+            return (p: number[]) => p[0] === p[1] ? 1 : 0;
+    }
+    return (p: number[]) => -1;
+}
+
+const consumePacket = (bs: BitStream): number => {
     const version = bs.take(3);
     const type = bs.take(3);
-    let sum  = version;
     if (type === 4) {
         let f = 0;
         let v = 0;
@@ -51,29 +70,31 @@ class BitStream {
             v = v * 16 + bs.take(4);
         } while (f === 1);
         console.log(version, type, '#', v);
+        return v;
     } else {
         const mode = bs.take(1);
+        const parts = [];
         if (mode === 0) {
             const len = bs.take(15);                
             console.log(version, type, 'I', len);
             const inner = bs.takeStream(len);
-            sum += consumeStream(inner);        
+            parts.push(...consumeStream(inner));
         } else {
             const nr = bs.take(11);
             for (let k=0 ; k<nr ; ++k) {
-                sum += consumePacket(bs);
+                parts.push(consumePacket(bs));
             }
         }
+        return opLookup(type)(parts);
     }
-    return sum;
 }
 
-const consumeStream = (bs: BitStream) => {
-    let sum = 0;
+const consumeStream = (bs: BitStream): number[] => {
+    const reply = [];
     while (!bs.isEmpty()) {
-        sum += consumePacket(bs);
+        reply.push(consumePacket(bs));
     }
-    return sum;
+    return reply;
 }
 
 const s = consumeStream(new BitStream(values));
