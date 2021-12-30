@@ -168,7 +168,6 @@ const splitToken = (t: Symbol[]): Symbol[] | undefined => {
 
     for (let ix = 0 ; ix<t.length ; ++ix) {
         let s = t[ix];
-        let copyAsIs = false;
         if (modified) {
             // Nuthing
         } else if (typeof s === 'number') {
