@@ -1,17 +1,106 @@
 export { };
 
 const values = `
-[[[0,[4,5]],[0,0]],[[[4,5],[2,6]],[9,5]]]
-[7,[[[3,7],[4,3]],[[6,3],[8,8]]]]
-[[2,[[0,8],[3,4]]],[[[6,7],1],[7,[1,6]]]]
-[[[[2,4],7],[6,[0,5]]],[[[6,8],[2,8]],[[2,1],[4,5]]]]
-[7,[5,[[3,8],[1,4]]]]
-[[2,[2,2]],[8,[8,1]]]
-[2,9]
-[1,[[[9,3],9],[[9,0],[0,7]]]]
-[[[5,[7,4]],7],1]
-[[[[4,2],2],6],[8,7]]
-`
+[[1,[8,[5,8]]],[[4,4],[8,[8,8]]]]
+[[[3,[2,3]],[[8,0],2]],[0,[[8,1],[7,0]]]]
+[4,[[0,3],[[6,6],[3,8]]]]
+[[[7,[6,4]],[[0,6],[2,0]]],[[[5,6],[0,4]],[[8,1],[9,1]]]]
+[[[6,3],[[6,9],4]],[[1,[4,2]],[[0,0],1]]]
+[[2,0],[3,[0,8]]]
+[[0,[5,5]],[[4,2],[3,[6,4]]]]
+[[[[9,9],[8,5]],[7,4]],[[6,9],[8,[0,8]]]]
+[[[[7,1],[2,9]],[[9,3],0]],[3,[[0,6],[7,6]]]]
+[[[[3,7],[7,1]],[[5,8],[0,1]]],3]
+[[[[4,6],[6,2]],[[9,1],7]],[[9,1],[8,0]]]
+[[[[2,7],0],[[9,4],[2,6]]],[0,[[7,4],[0,3]]]]
+[[5,[[0,2],[8,8]]],[[[4,1],9],3]]
+[[[7,1],[[3,7],[3,4]]],[[[0,7],[1,6]],1]]
+[[[6,5],[[1,8],[8,8]]],[[4,5],[3,7]]]
+[[[1,[3,3]],[[3,2],[5,7]]],[[8,[9,3]],[[5,3],4]]]
+[[[4,[2,7]],9],[9,[[5,6],4]]]
+[[[9,1],3],[[1,2],9]]
+[[[[0,0],[2,3]],[[7,8],[1,5]]],[[[8,6],7],[[8,3],9]]]
+[6,[[5,[0,8]],1]]
+[4,[[[3,0],[2,0]],[[7,2],[1,4]]]]
+[[[[4,3],[4,1]],8],[[[9,4],[1,9]],[4,[0,6]]]]
+[4,[5,6]]
+[[[0,[6,1]],[[6,1],3]],[[0,[7,8]],[1,0]]]
+[[5,[[8,7],8]],8]
+[[5,[[5,2],0]],[[1,[4,7]],[[0,9],[2,3]]]]
+[[7,[2,2]],[[6,3],[5,8]]]
+[[[0,9],5],[1,[[5,7],1]]]
+[[8,[3,[0,3]]],[[[2,2],2],[[8,8],[8,9]]]]
+[[6,[[3,2],[2,6]]],[5,1]]
+[[[[9,8],[6,8]],[0,7]],7]
+[[[7,2],[[6,3],4]],2]
+[[[5,2],[[1,6],[8,3]]],[6,5]]
+[[5,2],[0,5]]
+[[[[4,5],5],[[4,6],[1,2]]],[[[3,6],[4,9]],[1,9]]]
+[[1,[4,1]],[[9,[5,5]],[[9,0],[5,7]]]]
+[[[[8,9],[7,7]],2],[8,1]]
+[[[8,1],[8,[9,5]]],3]
+[[[2,[3,9]],[[5,4],[7,9]]],[9,8]]
+[8,[[2,[0,9]],[[5,0],4]]]
+[[[6,[4,8]],[0,6]],[[8,[1,8]],1]]
+[[6,[[1,0],[6,2]]],[[9,[3,7]],[5,[4,0]]]]
+[[8,[0,[9,1]]],8]
+[7,[4,[7,2]]]
+[[1,[[5,7],[5,4]]],[[5,[8,0]],[1,6]]]
+[[[[0,6],[6,2]],3],[[[9,3],7],[7,[1,2]]]]
+[[[6,[4,9]],8],[6,5]]
+[[[0,[1,9]],[[1,9],[3,9]]],[[[3,4],[7,5]],3]]
+[[[[9,3],5],[[0,5],[2,7]]],9]
+[[[6,[7,5]],5],[1,[[7,0],[3,4]]]]
+[[[2,1],[[1,3],[1,5]]],[4,[9,[7,9]]]]
+[[[[7,9],4],[[8,8],7]],[[[3,5],2],[[4,4],[6,5]]]]
+[[1,1],[1,1]]
+[[8,[0,2]],8]
+[[[2,[2,1]],[[1,7],[1,2]]],[[1,6],5]]
+[6,[0,[[1,0],[0,9]]]]
+[6,[[2,[8,0]],[8,[8,8]]]]
+[4,[[3,[0,3]],4]]
+[[[5,3],3],[[0,[7,6]],[2,[5,8]]]]
+[[[[8,1],[4,1]],[[5,8],[4,8]]],[[[1,7],[7,2]],[0,[2,7]]]]
+[[[2,[3,5]],3],5]
+[[7,[[9,5],[8,2]]],[[[1,8],8],5]]
+[[3,5],[[4,[9,3]],5]]
+[[[[4,6],2],[2,2]],[0,[0,4]]]
+[[[[5,8],[6,6]],[2,0]],[[[2,3],9],[[4,5],2]]]
+[[[[1,9],3],[[3,4],6]],[[3,6],[6,[0,7]]]]
+[[[0,[5,5]],[2,6]],[[[7,4],4],2]]
+[0,[[8,[6,2]],[5,[1,5]]]]
+[[[[5,5],[9,6]],[[5,2],2]],[[4,7],[[5,5],[1,6]]]]
+[[4,7],[[[1,8],[9,6]],[2,3]]]
+[5,[5,4]]
+[[[[2,1],[7,0]],[5,[7,8]]],[6,[3,1]]]
+[[[3,1],[[2,4],6]],[[[1,8],[2,1]],[[1,7],4]]]
+[[[5,[3,3]],6],[[[0,0],9],[1,[7,4]]]]
+[[[6,5],[[7,3],4]],[[9,[0,3]],[3,[6,0]]]]
+[[[3,4],7],[8,[[1,7],[9,9]]]]
+[[[[2,1],6],[2,6]],[[[8,1],[6,2]],[9,0]]]
+[[8,4],[5,2]]
+[[4,[[4,5],9]],[[3,[5,2]],[4,2]]]
+[[[8,8],[[8,0],[5,3]]],4]
+[[1,8],[0,2]]
+[[[[7,2],[9,0]],[[9,2],[1,2]]],[[[4,0],3],0]]
+[[[[1,2],[1,8]],[[4,3],[8,6]]],[[[5,1],8],[8,1]]]
+[[[[5,3],[7,2]],7],[[6,[7,9]],[[3,8],[9,4]]]]
+[[[[3,1],[2,5]],6],[[[3,2],[8,8]],[4,6]]]
+[9,[[3,[2,3]],6]]
+[[[[4,0],[5,6]],[5,4]],[[[9,0],[1,8]],[5,[3,6]]]]
+[[[[9,5],[9,4]],[[5,7],5]],[[[1,4],7],[6,1]]]
+[[2,[6,[8,2]]],[7,[1,[3,3]]]]
+[[[9,1],[0,[6,3]]],[[5,[1,5]],[7,[1,0]]]]
+[1,6]
+[[0,[2,[8,9]]],[[[4,5],[5,4]],1]]
+[[[1,[4,1]],8],[[2,[7,0]],[7,[9,9]]]]
+[[[[5,7],[3,5]],[[6,6],2]],[2,[8,[9,0]]]]
+[6,[[[3,9],8],[[4,3],[6,1]]]]
+[[[[6,7],[7,6]],[2,8]],[[9,[4,1]],6]]
+[[[[4,5],[4,5]],[[0,6],5]],[[[6,5],[7,0]],1]]
+[[[[6,7],9],[[5,5],[6,6]]],[[7,1],[[8,2],[3,1]]]]
+[[[9,6],7],[[[1,8],8],[1,7]]]
+[[5,2],[[1,9],[2,2]]]`
     .split('\n')
     .filter((v) => v)
     .map((v): Symbol[] => {
@@ -96,145 +185,71 @@ const splitToken = (t: Symbol[]): Symbol[] | undefined => {
 
     return modified ? next : undefined;
 }
-const toString = (t: Symbol[]): string => {
-    return t.join('');
-}
-
 const reduceToken = (t: Symbol[]): Symbol[] => {
     let syms: Symbol[] | undefined = t;
     let reply: typeof t;
     do {
         reply = syms;
-        // console.log(toString(syms));
         const tmp = explodeToken(syms);
         syms = !tmp ? splitToken(syms) : tmp;
     } while (syms);
     return reply;
 }
 
-const res = values.reduce((a,b) => reduceToken(addTokens(a, b)));
-console.log(toString(res));
-/*
-let syms: Symbol[] | undefined = t3;
-do {
-    console.log(toString(syms));
-    const next = explodeToken(syms);
-    syms = !next ? splitToken(syms) : next;
-} while (syms);
-
-*/
-
-
-/*
-
-type Pair = [Pair | number, Pair | number];
-
-interface Tree {
-    parent: Tree | undefined;
-    left: Tree | number;
-    right: Tree | number;
-}
-
-const isnum = (pon: Tree | Pair | number) => {
-    return typeof pon === 'number';
-}
-
-const makeTree = (p: Pair, parent: Tree | undefined = undefined): Tree => {
-    const t: Tree = {
-        parent,
-        left: 0,
-        right: 0,
-    };
-    t.left = isnum(p[0]) ? p[0] as number : makeTree(p[0] as Pair, t);
-    t.right = isnum(p[1]) ? p[1] as number : makeTree(p[1] as Pair, t);
-    return t;
-}
-
-const addTrees = (a: Tree, b: Tree): Tree => {
-    const t: Tree = {
-        left: a,
-        right: b,
-        parent: undefined,
-    };
-    a.parent = t;
-    b.parent = t;
-    return t;
-}
-
-
-const toPair = (t: Tree): Pair => {
-    const _toPair = (tn: Tree | number): Pair | number => {
-        if (isnum(tn)) {
-            return tn as number;
-        } else {
-            const t = tn as Tree;
-            return [_toPair(t.left), _toPair(t.right)]
+const magnitude = (t: Symbol[]): number => {
+    class SymbolStream { 
+        t: Symbol[];
+        offset: number;
+        constructor(t: Symbol[]) { 
+            this.t = t;
+            this.offset = 0;
+        }    
+        isEmpty() {
+            return this.offset >= this.t.length;
         }
-    }
-    return [_toPair(t.left), _toPair(t.right)];
-}
-
-const explodeTree = (t: Tree): Tree => {
-    const _explodeTree = (d: number, tn: Tree | number): Tree | number => {
-        if (isnum(tn)) {
-            return tn;
+        take() {
+            return this.t[this.offset++];
         }
-        const t = tn as Tree;
-        if (d < 3) {
-            return {
-                left: isnum(t.left) ? t.left : _explodeTree(d+1, t.left as Tree),
-                right: isnum(t.right) ? t.right : _explodeTree(d+1, t.right as Tree),
-                parent: t.parent,
+        peek() {
+            return this.t[this.offset];
+        }
+     }
+    
+     type Pair = [Pair | number, Pair | number];
+
+     const readPair = (d: number, ss: SymbolStream): Pair | undefined => {
+        const start = ss.take();
+        if (start === '[') {
+            const left = typeof ss.peek() === 'number' ? ss.take() as number : readPair(d+1, ss);
+            const comma = ss.take();
+            if (comma === ',' && left != undefined) {
+                const right = typeof ss.peek() === 'number' ? ss.take() as number : readPair(d+1,ss);
+                const end = ss.take();
+                if (end === ']' && right != undefined) {
+                    return [left, right];
+                } else {
+                    console.log('missing ]', right);
+                }
+            } else {
+                console.log('missing ,', left);
             }
         } else {
-            return 0;
+            console.log('missing [', start);
         }
     }
-    return t;
-}
-
-const p0: Pair = [[[[4,3],4],4],[7,[[8,4],9]]];
-const p1: Pair = [1,1];
-
-const t0 = makeTree(p0);
-const t1 = makeTree(p1);
-
-const t2 = addTrees(t0, t1);
-
-const p2 = toPair(t2);
-
-console.log(JSON.stringify(p2));
-
-const t3 = explodeTree(t2);
-const p3 = toPair(t3);
-console.log(JSON.stringify(p3));
-
-
-const explorePair = (p: Pair) => {
-    p.forEach((d) => {
-        if (typeof d === 'number') {
-            console.log('num', d);
+    const calcMagnitude = (p: Pair | number): number => {
+        if (typeof p === 'number') {
+            return p;
         } else {
-            explorePair(d);
+            return 3 * calcMagnitude(p[0]) + 2 * calcMagnitude(p[1]);
         }
-    });
-}
-explorePair(p);
+    };
+    const ss = new SymbolStream(t);
+    const p = readPair(0, ss);
 
-interface Res {
-    left: number | undefined;
-    right: number | undefined;
-    modified: boolean | undefined;
+    return p ? calcMagnitude(p) : 0;
 }
 
-const explodePair = (p: Pair): Res => {
-    p.forEach((d) => {
-        if (typeof d === 'number') {
-            console.log('num', d);
-        } else {
-            explorePair(d);
-        }
-    });
-}
-const res = explodePair(p);
-*/
+const res = values.reduce((a,b) => reduceToken(addTokens(a, b)));
+console.log(magnitude(res));
+
