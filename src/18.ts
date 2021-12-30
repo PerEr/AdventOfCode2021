@@ -100,7 +100,8 @@ const values = `
 [[[[4,5],[4,5]],[[0,6],5]],[[[6,5],[7,0]],1]]
 [[[[6,7],9],[[5,5],[6,6]]],[[7,1],[[8,2],[3,1]]]]
 [[[9,6],7],[[[1,8],8],[1,7]]]
-[[5,2],[[1,9],[2,2]]]`
+[[5,2],[[1,9],[2,2]]]
+`
     .split('\n')
     .filter((v) => v)
     .map((v): Symbol[] => {
@@ -227,14 +228,8 @@ const magnitude = (t: Symbol[]): number => {
                 const end = ss.take();
                 if (end === ']' && right != undefined) {
                     return [left, right];
-                } else {
-                    console.log('missing ]', right);
                 }
-            } else {
-                console.log('missing ,', left);
             }
-        } else {
-            console.log('missing [', start);
         }
     }
     const calcMagnitude = (p: Pair | number): number => {
@@ -250,6 +245,17 @@ const magnitude = (t: Symbol[]): number => {
     return p ? calcMagnitude(p) : 0;
 }
 
-const res = values.reduce((a,b) => reduceToken(addTokens(a, b)));
-console.log(magnitude(res));
+const highestPairSum = ([head, ...tail]: Symbol[][]):number => {
+    const r = tail.length > 1 ? highestPairSum(tail) : 0;
+    const l = tail
+        .map((v) => {
+            return [addTokens(head, v), addTokens(v, head)]
+                .map(reduceToken)
+                .map(magnitude)
+                .reduce((a, b) => Math.max(a, b), 0);
+        })
+        .reduce((a, b) => Math.max(a, b), 0);
+    return Math.max(l, r);
+}
 
+console.log(highestPairSum(values));
