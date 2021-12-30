@@ -141,7 +141,7 @@ const evolve = (s: Map<string, number>) => {
 };
 
 let workSeed = new Map<string, number>();
-toPairs(seedData).forEach((v) => {2926813379532
+toPairs(seedData).forEach((v) => {
     workSeed.set(v, 1 + (workSeed.get(v) || 0));
 });
 
